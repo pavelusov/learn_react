@@ -1,12 +1,11 @@
 import React from 'react';
 import {render} from 'react-dom';
-import data from '../data/index';
-import Menu from './components/Menu/index';
+import App from './components/App';
 
 window.React = React;
 
 render(
-    <Menu recipes={data} title="My Recipes"/>,
+    <App/>,
     document.getElementById('react-container')
 );
 
