@@ -1,0 +1,36 @@
+{
+  "name": "recipe-app",
+  "version": "1.0.0",
+  "description": "Learning React Chapter 5 sample for modular recipes with webpack",
+  "main": "index.js",
+  "browserslist": ["> 1%", "ie >= 9", "safari >= 7"],
+  "scripts": {
+    "build": "webpack --progress",
+    "prestart": "npm run build",
+    "start": "opener dist/index.html",
+    "dev": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "16.0.0",
+    "react-dom": "16.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^8.6.0",
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "css-loader": "0.28.7",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "less-plugin-autoprefix": "^1.5.1",
+    "opener": "1.4.3",
+    "postcss-loader": "2.0.6",
+    "style-loader": "0.18.2",
+    "webpack": "3.6.0"
+  }
+}
