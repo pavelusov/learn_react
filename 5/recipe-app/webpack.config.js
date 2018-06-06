@@ -6,9 +6,9 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist', 'assets'),
         filename: 'bundle.js',
-        sourceMapFilename: 'bundle.map'
+        // sourceMapFilename: 'bundle.map'
     },
-    devtool: '#source-map',
+    // devtool: '#source-map',
     module: {
         rules: [
             {
@@ -36,12 +36,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [
+    /*plugins: [
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             warnings: false,
             mangle: true
         })
-    ]
+    ]*/
 };
 //https://github.com/babel/babel-loader

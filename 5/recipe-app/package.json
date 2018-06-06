@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Learning React Chapter 5 sample for modular recipes with webpack",
   "main": "index.js",
-  "browserslist": ["> 1%", "ie >= 9", "safari >= 7"],
+  "browserslist": [
+    "> 1%",
+    "ie >= 9",
+    "safari >= 7"
+  ],
   "scripts": {
     "build": "webpack --progress",
     "prestart": "npm run build",
@@ -14,6 +18,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "prop-types": "^15.6.1",
     "react": "16.0.0",
     "react-dom": "16.0.0"
   },
