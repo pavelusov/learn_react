@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -300,21 +300,6 @@ module.exports = emptyFunction;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(22);
-} else {
-  module.exports = __webpack_require__(23);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -368,6 +353,21 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(21);
+} else {
+  module.exports = __webpack_require__(22);
+}
+
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
@@ -471,41 +471,6 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(35)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(36)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -527,7 +492,7 @@ module.exports = emptyObject;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -596,6 +561,41 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(34)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(35)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -610,8 +610,8 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(3);
-  var warning = __webpack_require__(7);
+  var invariant = __webpack_require__(2);
+  var warning = __webpack_require__(6);
   var ReactPropTypesSecret = __webpack_require__(9);
   var loggedTypeFailures = {};
 }
@@ -888,7 +888,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(26);
+var isTextNode = __webpack_require__(25);
 
 /*eslint-disable no-bitwise */
 
@@ -991,6 +991,73 @@ module.exports = getActiveElement;
 /* 16 */
 /***/ (function(module, exports) {
 
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && msCrypto.getRandomValues.bind(msCrypto));
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  return bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] + '-' +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]] +
+          bth[buf[i++]] + bth[buf[i++]];
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -1070,7 +1137,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1429,244 +1496,19 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.AddColorFormStateless = exports.AddColorFormState = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(2);
-
-var _propTypes = __webpack_require__(5);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// ES6 Class component
-var AddColorFormState = exports.AddColorFormState = function (_Component) {
-    _inherits(AddColorFormState, _Component);
-
-    function AddColorFormState(props) {
-        _classCallCheck(this, AddColorFormState);
-
-        var _this = _possibleConstructorReturn(this, (AddColorFormState.__proto__ || Object.getPrototypeOf(AddColorFormState)).call(this, props));
-
-        _this.submit = _this.submit.bind(_this);
-        return _this;
-    }
-
-    _createClass(AddColorFormState, [{
-        key: 'submit',
-        value: function submit(e) {
-            e.preventDefault();
-            var _refs = this.refs,
-                _title = _refs._title,
-                _color = _refs._color;
-
-            if (this.props.onNewColor) {
-                this.props.onNewColor(_title.value, _color.value);
-            }
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return React.createElement(
-                'div',
-                null,
-                React.createElement(
-                    'h2',
-                    null,
-                    'Component "Colors" with State'
-                ),
-                React.createElement(
-                    'form',
-                    { onSubmit: this.submit },
-                    React.createElement('input', {
-                        ref: '_title',
-                        type: 'text',
-                        placeholder: 'color title... ',
-                        required: true }),
-                    React.createElement('input', {
-                        ref: '_color',
-                        type: 'color', required: true }),
-                    React.createElement(
-                        'button',
-                        null,
-                        'add'
-                    )
-                ),
-                React.createElement('hr', null)
-            );
-        }
-    }], [{
-        key: 'propTypes',
-        get: function get() {
-            return {
-                onNewColor: _propTypes2.default.func
-            };
-        }
-    }, {
-        key: 'defaultProps',
-        get: function get() {
-            return {
-                onNewColor: function onNewColor() {
-                    return console.log(new Error("Not property onNewColor"));
-                }
-            };
-        }
-    }]);
-
-    return AddColorFormState;
-}(_react.Component);
-
-// Functional component
-
-
-var AddColorFormStateless = exports.AddColorFormStateless = function AddColorFormStateless(_ref) {
-    var onNewColor = _ref.onNewColor;
-
-    var _title = void 0,
-        _color = void 0;
-    var submit = function submit(e) {
-        e.preventDefault();
-        onNewColor(_title.value, _color.value);
-    };
-    return React.createElement(
-        'div',
-        null,
-        React.createElement(
-            'h2',
-            null,
-            'Component "Colors" without State'
-        ),
-        React.createElement(
-            'form',
-            { onSubmit: submit },
-            React.createElement('input', {
-                ref: function ref(input) {
-                    return _title = input;
-                },
-                type: 'text',
-                placeholder: 'color title... ',
-                required: true }),
-            React.createElement('input', {
-                ref: function ref(input) {
-                    return _color = input;
-                },
-                type: 'color', required: true }),
-            React.createElement(
-                'button',
-                null,
-                'add'
-            )
-        ),
-        React.createElement('hr', null)
-    );
-};
-AddColorFormStateless.defaultProps = {
-    onNewColor: function onNewColor() {
-        console.log('defaultProps onNewColor');
-    }
-};
-AddColorFormStateless.propTypes = {
-    onNewColor: _propTypes2.default.func
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-
-// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation.
-var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues.bind(crypto)) ||
-                      (typeof(msCrypto) != 'undefined' && msCrypto.getRandomValues.bind(msCrypto));
-if (getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-
-  module.exports = function whatwgRNG() {
-    getRandomValues(rnds8);
-    return rnds8;
-  };
-} else {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var rnds = new Array(16);
-
-  module.exports = function mathRNG() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-
-/***/ }),
 /* 20 */
-/***/ (function(module, exports) {
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  return bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] + '-' +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]] +
-          bth[buf[i++]] + bth[buf[i++]];
-}
-
-module.exports = bytesToUuid;
-
-
-/***/ }),
-/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(24);
+var _reactDom = __webpack_require__(23);
 
-var _App = __webpack_require__(37);
+var _App = __webpack_require__(36);
 
 var _App2 = _interopRequireDefault(_App);
 
@@ -1677,7 +1519,7 @@ window.React = _react2.default;
 (0, _reactDom.render)(_react2.default.createElement(_App2.default, null), document.getElementById('react-container'));
 
 /***/ }),
-/* 22 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1690,7 +1532,7 @@ window.React = _react2.default;
  This source code is licensed under the MIT license found in the
  LICENSE file in the root directory of this source tree.
 */
-var f=__webpack_require__(4),p=__webpack_require__(6);__webpack_require__(3);var r=__webpack_require__(1);
+var f=__webpack_require__(4),p=__webpack_require__(5);__webpack_require__(2);var r=__webpack_require__(1);
 function t(a){for(var b=arguments.length-1,d="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,e=0;e<b;e++)d+="\x26args[]\x3d"+encodeURIComponent(arguments[e+1]);b=Error(d+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var u={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function v(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}v.prototype.isReactComponent={};v.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?t("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};v.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function w(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}function x(){}x.prototype=v.prototype;var y=w.prototype=new x;y.constructor=w;f(y,v.prototype);y.isPureReactComponent=!0;function z(a,b,d){this.props=a;this.context=b;this.refs=p;this.updater=d||u}var A=z.prototype=new x;A.constructor=z;f(A,v.prototype);A.unstable_isAsyncReactComponent=!0;A.render=function(){return this.props.children};
@@ -1707,7 +1549,7 @@ module.exports={Children:{map:S.map,forEach:S.forEach,count:S.count,toArray:S.to
 
 
 /***/ }),
-/* 23 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1728,9 +1570,9 @@ if (process.env.NODE_ENV !== "production") {
 'use strict';
 
 var objectAssign$1 = __webpack_require__(4);
-var require$$0 = __webpack_require__(7);
-var emptyObject = __webpack_require__(6);
-var invariant = __webpack_require__(3);
+var require$$0 = __webpack_require__(6);
+var emptyObject = __webpack_require__(5);
+var invariant = __webpack_require__(2);
 var emptyFunction = __webpack_require__(1);
 var checkPropTypes = __webpack_require__(8);
 
@@ -3413,7 +3255,7 @@ module.exports = ReactEntry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 24 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3451,15 +3293,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(25);
+  module.exports = __webpack_require__(24);
 } else {
-  module.exports = __webpack_require__(28);
+  module.exports = __webpack_require__(27);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3473,7 +3315,7 @@ if (process.env.NODE_ENV === 'production') {
  LICENSE file in the root directory of this source tree.
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2);__webpack_require__(3);var l=__webpack_require__(10),n=__webpack_require__(4),ba=__webpack_require__(11),ca=__webpack_require__(1),da=__webpack_require__(6),ea=__webpack_require__(12),fa=__webpack_require__(13),ha=__webpack_require__(14),ia=__webpack_require__(15);
+var aa=__webpack_require__(3);__webpack_require__(2);var l=__webpack_require__(10),n=__webpack_require__(4),ba=__webpack_require__(11),ca=__webpack_require__(1),da=__webpack_require__(5),ea=__webpack_require__(12),fa=__webpack_require__(13),ha=__webpack_require__(14),ia=__webpack_require__(15);
 function w(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:w("227");
 function ja(a){switch(a){case "svg":return"http://www.w3.org/2000/svg";case "math":return"http://www.w3.org/1998/Math/MathML";default:return"http://www.w3.org/1999/xhtml"}}
 var ka={Namespaces:{html:"http://www.w3.org/1999/xhtml",mathml:"http://www.w3.org/1998/Math/MathML",svg:"http://www.w3.org/2000/svg"},getIntrinsicNamespace:ja,getChildNamespace:function(a,b){return null==a||"http://www.w3.org/1999/xhtml"===a?ja(b):"http://www.w3.org/2000/svg"===a&&"foreignObject"===b?"http://www.w3.org/1999/xhtml":a}},la=null,oa={};
@@ -3722,7 +3564,7 @@ unstable_deferredUpdates:Xj.deferredUpdates,flushSync:Xj.flushSync,__SECRET_INTE
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3737,7 +3579,7 @@ unstable_deferredUpdates:Xj.deferredUpdates,flushSync:Xj.flushSync,__SECRET_INTE
  * @typechecks
  */
 
-var isNode = __webpack_require__(27);
+var isNode = __webpack_require__(26);
 
 /**
  * @param {*} object The object to check.
@@ -3750,7 +3592,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3778,7 +3620,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3798,18 +3640,18 @@ if (process.env.NODE_ENV !== "production") {
 
 'use strict';
 
-var react = __webpack_require__(2);
-var invariant = __webpack_require__(3);
+var react = __webpack_require__(3);
+var invariant = __webpack_require__(2);
 var ExecutionEnvironment = __webpack_require__(10);
 var _assign = __webpack_require__(4);
 var EventListener = __webpack_require__(11);
-var require$$0 = __webpack_require__(7);
-var hyphenateStyleName = __webpack_require__(29);
+var require$$0 = __webpack_require__(6);
+var hyphenateStyleName = __webpack_require__(28);
 var emptyFunction = __webpack_require__(1);
-var camelizeStyleName = __webpack_require__(31);
-var performanceNow = __webpack_require__(33);
-var propTypes = __webpack_require__(5);
-var emptyObject = __webpack_require__(6);
+var camelizeStyleName = __webpack_require__(30);
+var performanceNow = __webpack_require__(32);
+var propTypes = __webpack_require__(7);
+var emptyObject = __webpack_require__(5);
 var checkPropTypes = __webpack_require__(8);
 var shallowEqual = __webpack_require__(12);
 var containsNode = __webpack_require__(13);
@@ -21007,7 +20849,7 @@ module.exports = ReactDOMFiberEntry;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21022,7 +20864,7 @@ module.exports = ReactDOMFiberEntry;
 
 
 
-var hyphenate = __webpack_require__(30);
+var hyphenate = __webpack_require__(29);
 
 var msPattern = /^ms-/;
 
@@ -21049,7 +20891,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21085,7 +20927,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21100,7 +20942,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(32);
+var camelize = __webpack_require__(31);
 
 var msPattern = /^-ms-/;
 
@@ -21128,7 +20970,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21163,7 +21005,7 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21178,7 +21020,7 @@ module.exports = camelize;
  * @typechecks
  */
 
-var performance = __webpack_require__(34);
+var performance = __webpack_require__(33);
 
 var performanceNow;
 
@@ -21200,7 +21042,7 @@ if (performance.now) {
 module.exports = performanceNow;
 
 /***/ }),
-/* 34 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21226,7 +21068,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = performance || {};
 
 /***/ }),
-/* 35 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21240,8 +21082,8 @@ module.exports = performance || {};
 
 
 var emptyFunction = __webpack_require__(1);
-var invariant = __webpack_require__(3);
-var warning = __webpack_require__(7);
+var invariant = __webpack_require__(2);
+var warning = __webpack_require__(6);
 var assign = __webpack_require__(4);
 
 var ReactPropTypesSecret = __webpack_require__(9);
@@ -21776,7 +21618,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21790,7 +21632,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 
 var emptyFunction = __webpack_require__(1);
-var invariant = __webpack_require__(3);
+var invariant = __webpack_require__(2);
 var ReactPropTypesSecret = __webpack_require__(9);
 
 module.exports = function() {
@@ -21841,7 +21683,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21855,21 +21697,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
-var _data = __webpack_require__(38);
+var _AddColorForm = __webpack_require__(37);
 
-var _data2 = _interopRequireDefault(_data);
+var _uuid = __webpack_require__(38);
 
-var _Menu = __webpack_require__(39);
-
-var _Menu2 = _interopRequireDefault(_Menu);
-
-var _AddColorForm = __webpack_require__(18);
-
-var _uuid = __webpack_require__(48);
-
-var _ColorList = __webpack_require__(51);
+var _ColorList = __webpack_require__(41);
 
 var _ColorList2 = _interopRequireDefault(_ColorList);
 
@@ -21937,7 +21771,7 @@ var App = function (_Component) {
                 removeColor = this.removeColor;
             var colors = this.state.colors;
 
-            console.log(colors);
+
             return React.createElement(
                 'div',
                 { className: 'app' },
@@ -21957,13 +21791,7 @@ var App = function (_Component) {
 exports.default = App;
 
 /***/ }),
-/* 38 */
-/***/ (function(module, exports) {
-
-module.exports = [{"name":"Baked Salmon","ingredients":[{"name":"Salmon","amount":1,"measurement":"l lb"},{"name":"Pine Nuts","amount":1,"measurement":"cup"},{"name":"Butter Lettuce","amount":2,"measurement":"cups"},{"name":"Yellow Squash","amount":1,"measurement":"med"},{"name":"Olive Oil","amount":0.5,"measurement":"cup"},{"name":"Garlic","amount":3,"measurement":"cloves"}],"steps":["Preheat the oven to 350 degrees.","Spread the olive oil around a glass baking dish.","Add the salmon, garlic, and pine nuts to the dish.","Bake for 15 minutes.","Add the yellow squash and put back in the oven for 30 mins.","Remove from oven and let cool for 15 minutes. Add the lettuce and serve."]},{"name":"Fish Tacos","ingredients":[{"name":"Whitefish","amount":1,"measurement":"l lb"},{"name":"Cheese","amount":1,"measurement":"cup"},{"name":"Iceberg Lettuce","amount":2,"measurement":"cups"},{"name":"Tomatoes","amount":2,"measurement":"large"},{"name":"Tortillas","amount":3,"measurement":"med"}],"steps":["Cook the fish on the grill until hot.","Place the fish on the 3 tortillas.","Top them with lettuce, tomatoes, and cheese."]}]
-
-/***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21972,213 +21800,13 @@ module.exports = [{"name":"Baked Salmon","ingredients":[{"name":"Salmon","amount
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _index = __webpack_require__(40);
-
-var _index2 = _interopRequireDefault(_index);
-
-var _AddColorForm = __webpack_require__(18);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Menu = function Menu(_ref) {
-    var title = _ref.title,
-        recipes = _ref.recipes;
-    return React.createElement(
-        'article',
-        null,
-        React.createElement(
-            'header',
-            null,
-            React.createElement(
-                'h1',
-                null,
-                title
-            ),
-            React.createElement(
-                'div',
-                { className: 'recipes' },
-                recipes.map(function (recipe, key) {
-                    return React.createElement(_index2.default, _extends({ key: key }, recipe));
-                })
-            )
-        )
-    );
-};
-
-exports.default = Menu;
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _IngredientsList = __webpack_require__(41);
-
-var _IngredientsList2 = _interopRequireDefault(_IngredientsList);
-
-var _Instructions = __webpack_require__(43);
-
-var _Instructions2 = _interopRequireDefault(_Instructions);
-
-var _Summary = __webpack_require__(44);
-
-var _Summary2 = _interopRequireDefault(_Summary);
-
-__webpack_require__(45);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Recipe = function Recipe(_ref) {
-    var name = _ref.name,
-        ingredients = _ref.ingredients,
-        steps = _ref.steps;
-    return React.createElement(
-        'section',
-        { className: 'recipe', id: name.toLowerCase().replace(/ /g, '-') },
-        React.createElement(
-            'h1',
-            null,
-            name
-        ),
-        React.createElement(_IngredientsList2.default, { list: ingredients }),
-        React.createElement(_Instructions2.default, { steps: steps, title: 'Cooking instructions' }),
-        React.createElement(_Summary2.default, { title: 'Summary:', ingredients: ingredients.length, steps: steps.length })
-    );
-};
-
-exports.default = Recipe;
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _index = __webpack_require__(42);
-
-var _index2 = _interopRequireDefault(_index);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var IngredientsList = function IngredientsList(_ref) {
-    var list = _ref.list;
-    return React.createElement(
-        "ul",
-        { className: "ingredients" },
-        list.map(function (ingredient, key) {
-            return React.createElement(_index2.default, _extends({ key: key }, ingredient));
-        })
-    );
-};
-
-exports.default = IngredientsList;
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var Ingredient = function Ingredient(_ref) {
-    var amount = _ref.amount,
-        measurement = _ref.measurement,
-        name = _ref.name;
-    return React.createElement(
-        "li",
-        null,
-        React.createElement(
-            "span",
-            { className: "amount" },
-            amount
-        ),
-        React.createElement(
-            "span",
-            { className: "measurement" },
-            React.createElement(
-                "b",
-                null,
-                measurement
-            )
-        ),
-        React.createElement(
-            "span",
-            { className: "name" },
-            name
-        )
-    );
-};
-
-exports.default = Ingredient;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var Instructions = function Instructions(_ref) {
-    var title = _ref.title,
-        steps = _ref.steps;
-    return React.createElement(
-        "section",
-        { className: "instructions" },
-        React.createElement(
-            "h2",
-            null,
-            title
-        ),
-        steps.map(function (step, key) {
-            return React.createElement(
-                "p",
-                { key: key },
-                step
-            );
-        })
-    );
-};
-
-exports.default = Instructions;
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+exports.AddColorFormStateless = exports.AddColorFormState = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -22190,224 +21818,142 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Summary = function (_Component) {
-    _inherits(Summary, _Component);
+// ES6 Class component
+var AddColorFormState = exports.AddColorFormState = function (_Component) {
+    _inherits(AddColorFormState, _Component);
 
-    function Summary(props) {
-        _classCallCheck(this, Summary);
+    function AddColorFormState(props) {
+        _classCallCheck(this, AddColorFormState);
 
-        return _possibleConstructorReturn(this, (Summary.__proto__ || Object.getPrototypeOf(Summary)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (AddColorFormState.__proto__ || Object.getPrototypeOf(AddColorFormState)).call(this, props));
+
+        _this.submit = _this.submit.bind(_this);
+        return _this;
     }
 
-    _createClass(Summary, [{
+    _createClass(AddColorFormState, [{
+        key: 'submit',
+        value: function submit(e) {
+            e.preventDefault();
+            var _refs = this.refs,
+                _title = _refs._title,
+                _color = _refs._color;
+
+            if (this.props.onNewColor) {
+                this.props.onNewColor(_title.value, _color.value);
+            }
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _props = this.props,
-                title = _props.title,
-                ingredients = _props.ingredients,
-                steps = _props.steps;
-
             return React.createElement(
                 'div',
-                { className: 'summary' },
+                null,
                 React.createElement(
-                    'h1',
+                    'h2',
                     null,
-                    title
+                    'Component "Colors" with State'
                 ),
                 React.createElement(
-                    'p',
-                    null,
+                    'form',
+                    { onSubmit: this.submit },
+                    React.createElement('input', {
+                        ref: '_title',
+                        type: 'text',
+                        placeholder: 'color title... ',
+                        required: true }),
+                    React.createElement('input', {
+                        ref: '_color',
+                        type: 'color', required: true }),
                     React.createElement(
-                        'span',
+                        'button',
                         null,
-                        ingredients,
-                        ' Ingredients '
-                    ),
-                    ' |',
-                    React.createElement(
-                        'span',
-                        null,
-                        ' ',
-                        steps,
-                        ' Steps'
+                        'add'
                     )
-                )
+                ),
+                React.createElement('hr', null)
             );
         }
     }], [{
         key: 'propTypes',
         get: function get() {
             return {
-                ingredients: _propTypes2.default.number,
-                steps: _propTypes2.default.number.isRequired,
-                title: function title(props, propsName) {
-                    return typeof props[propsName] !== 'string' ? new Error("Title must be a string") : props[propsName].length > 20 ? new Error("Title is over 20 characters") : null;
-                }
+                onNewColor: _propTypes2.default.func
             };
         }
     }, {
         key: 'defaultProps',
         get: function get() {
             return {
-                title: "My summary",
-                ingredients: 0,
-                steps: 0
+                onNewColor: function onNewColor() {
+                    return console.log(new Error("Not property onNewColor"));
+                }
             };
         }
     }]);
 
-    return Summary;
+    return AddColorFormState;
 }(_react.Component);
 
-exports.default = Summary;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(46);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
-var transform;
-
-var options = {}
-options.transform = transform
-// add the styles to the DOM
-var update = __webpack_require__(17)(content, options);
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/less-loader/dist/cjs.js!../../../node_modules/postcss-loader/lib/index.js!./style.less", function() {
-			var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/less-loader/dist/cjs.js!../../../node_modules/postcss-loader/lib/index.js!./style.less");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(16)(undefined);
-// imports
+// Functional component
 
 
-// module
-exports.push([module.i, ".recipe {\n  border: 1px dashed #c95a1b;\n  border-radius: 10px;\n  margin-bottom: 20px;\n  padding: 20px;\n}\n", ""]);
+var AddColorFormStateless = exports.AddColorFormStateless = function AddColorFormStateless(_ref) {
+    var onNewColor = _ref.onNewColor;
 
-// exports
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-
-/**
- * When source maps are enabled, `style-loader` uses a link element with a data-uri to
- * embed the css on the page. This breaks all relative urls because now they are relative to a
- * bundle instead of the current page.
- *
- * One solution is to only use full urls, but that may be impossible.
- *
- * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
- *
- * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
- *
- */
-
-module.exports = function (css) {
-  // get current location
-  var location = typeof window !== "undefined" && window.location;
-
-  if (!location) {
-    throw new Error("fixUrls requires window.location");
-  }
-
-	// blank or null?
-	if (!css || typeof css !== "string") {
-	  return css;
-  }
-
-  var baseUrl = location.protocol + "//" + location.host;
-  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
-
-	// convert each url(...)
-	/*
-	This regular expression is just a way to recursively match brackets within
-	a string.
-
-	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
-	   (  = Start a capturing group
-	     (?:  = Start a non-capturing group
-	         [^)(]  = Match anything that isn't a parentheses
-	         |  = OR
-	         \(  = Match a start parentheses
-	             (?:  = Start another non-capturing groups
-	                 [^)(]+  = Match anything that isn't a parentheses
-	                 |  = OR
-	                 \(  = Match a start parentheses
-	                     [^)(]*  = Match anything that isn't a parentheses
-	                 \)  = Match a end parentheses
-	             )  = End Group
-              *\) = Match anything and then a close parens
-          )  = Close non-capturing group
-          *  = Match anything
-       )  = Close capturing group
-	 \)  = Match a close parens
-
-	 /gi  = Get all matches, not the first.  Be case insensitive.
-	 */
-	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
-		// strip quotes (if they exist)
-		var unquotedOrigUrl = origUrl
-			.trim()
-			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
-			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
-
-		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
-		  return fullMatch;
-		}
-
-		// convert the url to a full url
-		var newUrl;
-
-		if (unquotedOrigUrl.indexOf("//") === 0) {
-		  	//TODO: should we add protocol?
-			newUrl = unquotedOrigUrl;
-		} else if (unquotedOrigUrl.indexOf("/") === 0) {
-			// path should be relative to the base url
-			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
-		} else {
-			// path should be relative to current directory
-			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
-		}
-
-		// send back the fixed url(...)
-		return "url(" + JSON.stringify(newUrl) + ")";
-	});
-
-	// send back the fixed css
-	return fixedCss;
+    var _title = void 0,
+        _color = void 0;
+    var submit = function submit(e) {
+        e.preventDefault();
+        onNewColor(_title.value, _color.value);
+    };
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h2',
+            null,
+            'Component "Colors" without State'
+        ),
+        React.createElement(
+            'form',
+            { onSubmit: submit },
+            React.createElement('input', {
+                ref: function ref(input) {
+                    return _title = input;
+                },
+                type: 'text',
+                placeholder: 'color title... ',
+                required: true }),
+            React.createElement('input', {
+                ref: function ref(input) {
+                    return _color = input;
+                },
+                type: 'color', required: true }),
+            React.createElement(
+                'button',
+                null,
+                'add'
+            )
+        ),
+        React.createElement('hr', null)
+    );
+};
+AddColorFormStateless.defaultProps = {
+    onNewColor: function onNewColor() {
+        console.log('defaultProps onNewColor');
+    }
+};
+AddColorFormStateless.propTypes = {
+    onNewColor: _propTypes2.default.func
 };
 
-
 /***/ }),
-/* 48 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var v1 = __webpack_require__(49);
-var v4 = __webpack_require__(50);
+var v1 = __webpack_require__(39);
+var v4 = __webpack_require__(40);
 
 var uuid = v4;
 uuid.v1 = v1;
@@ -22417,11 +21963,11 @@ module.exports = uuid;
 
 
 /***/ }),
-/* 49 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(19);
-var bytesToUuid = __webpack_require__(20);
+var rng = __webpack_require__(16);
+var bytesToUuid = __webpack_require__(17);
 
 // **`v1()` - Generate time-based UUID**
 //
@@ -22532,11 +22078,11 @@ module.exports = v1;
 
 
 /***/ }),
-/* 50 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var rng = __webpack_require__(19);
-var bytesToUuid = __webpack_require__(20);
+var rng = __webpack_require__(16);
+var bytesToUuid = __webpack_require__(17);
 
 function v4(options, buf, offset) {
   var i = buf && offset || 0;
@@ -22567,7 +22113,7 @@ module.exports = v4;
 
 
 /***/ }),
-/* 51 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22579,7 +22125,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _Color = __webpack_require__(52);
+var _Color = __webpack_require__(42);
 
 var _Color2 = _interopRequireDefault(_Color);
 
@@ -22622,7 +22168,7 @@ var ColorList = function ColorList(_ref) {
 exports.default = ColorList;
 
 /***/ }),
-/* 52 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22632,11 +22178,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _StarRaiting = __webpack_require__(53);
+var _StarRaiting = __webpack_require__(43);
 
 var _StarRaiting2 = _interopRequireDefault(_StarRaiting);
 
-__webpack_require__(58);
+__webpack_require__(48);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22679,7 +22225,7 @@ var Color = function Color(_ref) {
 exports.default = Color;
 
 /***/ }),
-/* 53 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22689,13 +22235,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(3);
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Star = __webpack_require__(54);
+var _Star = __webpack_require__(44);
 
 var _Star2 = _interopRequireDefault(_Star);
 
@@ -22737,7 +22283,7 @@ var StarRating = function StarRating(_ref) {
 exports.default = StarRating;
 
 /***/ }),
-/* 54 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22747,11 +22293,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _propTypes = __webpack_require__(5);
+var _propTypes = __webpack_require__(7);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-__webpack_require__(55);
+__webpack_require__(45);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22775,13 +22321,13 @@ Star.defaultProps = {
 exports.default = Star;
 
 /***/ }),
-/* 55 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(56);
+var content = __webpack_require__(46);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -22789,7 +22335,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, options);
+var update = __webpack_require__(19)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -22806,10 +22352,10 @@ if(false) {
 }
 
 /***/ }),
-/* 56 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(16)(undefined);
+exports = module.exports = __webpack_require__(18)(undefined);
 // imports
 
 
@@ -22820,14 +22366,108 @@ exports.push([module.i, ".star {\n  cursor: pointer;\n  height: 25px;\n  width: 
 
 
 /***/ }),
-/* 57 */,
-/* 58 */
+/* 47 */
+/***/ (function(module, exports) {
+
+
+/**
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
+ * embed the css on the page. This breaks all relative urls because now they are relative to a
+ * bundle instead of the current page.
+ *
+ * One solution is to only use full urls, but that may be impossible.
+ *
+ * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
+ *
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
+ *
+ */
+
+module.exports = function (css) {
+  // get current location
+  var location = typeof window !== "undefined" && window.location;
+
+  if (!location) {
+    throw new Error("fixUrls requires window.location");
+  }
+
+	// blank or null?
+	if (!css || typeof css !== "string") {
+	  return css;
+  }
+
+  var baseUrl = location.protocol + "//" + location.host;
+  var currentDir = baseUrl + location.pathname.replace(/\/[^\/]*$/, "/");
+
+	// convert each url(...)
+	/*
+	This regular expression is just a way to recursively match brackets within
+	a string.
+
+	 /url\s*\(  = Match on the word "url" with any whitespace after it and then a parens
+	   (  = Start a capturing group
+	     (?:  = Start a non-capturing group
+	         [^)(]  = Match anything that isn't a parentheses
+	         |  = OR
+	         \(  = Match a start parentheses
+	             (?:  = Start another non-capturing groups
+	                 [^)(]+  = Match anything that isn't a parentheses
+	                 |  = OR
+	                 \(  = Match a start parentheses
+	                     [^)(]*  = Match anything that isn't a parentheses
+	                 \)  = Match a end parentheses
+	             )  = End Group
+              *\) = Match anything and then a close parens
+          )  = Close non-capturing group
+          *  = Match anything
+       )  = Close capturing group
+	 \)  = Match a close parens
+
+	 /gi  = Get all matches, not the first.  Be case insensitive.
+	 */
+	var fixedCss = css.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi, function(fullMatch, origUrl) {
+		// strip quotes (if they exist)
+		var unquotedOrigUrl = origUrl
+			.trim()
+			.replace(/^"(.*)"$/, function(o, $1){ return $1; })
+			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
+
+		// already a full url? no change
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		  return fullMatch;
+		}
+
+		// convert the url to a full url
+		var newUrl;
+
+		if (unquotedOrigUrl.indexOf("//") === 0) {
+		  	//TODO: should we add protocol?
+			newUrl = unquotedOrigUrl;
+		} else if (unquotedOrigUrl.indexOf("/") === 0) {
+			// path should be relative to the base url
+			newUrl = baseUrl + unquotedOrigUrl; // already starts with '/'
+		} else {
+			// path should be relative to current directory
+			newUrl = currentDir + unquotedOrigUrl.replace(/^\.\//, ""); // Strip leading './'
+		}
+
+		// send back the fixed url(...)
+		return "url(" + JSON.stringify(newUrl) + ")";
+	});
+
+	// send back the fixed css
+	return fixedCss;
+};
+
+
+/***/ }),
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(59);
+var content = __webpack_require__(49);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -22835,7 +22475,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(17)(content, options);
+var update = __webpack_require__(19)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -22852,10 +22492,10 @@ if(false) {
 }
 
 /***/ }),
-/* 59 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(16)(undefined);
+exports = module.exports = __webpack_require__(18)(undefined);
 // imports
 
 
