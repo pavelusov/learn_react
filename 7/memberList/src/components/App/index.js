@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import MemberList from "../MemberList";
 
 class App extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class App extends Component {
     render() {
         return (
             <div className="app">
-                New Application
+                <MemberList count={10}/>
             </div>
         );
     }
